@@ -11,7 +11,7 @@ Model name is converted to lowercase for the collection name:
 - BlogPost -> "blogs" collection
 """
 
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, Field, HttpUrl
 from typing import Optional
 
 # Example schemas (replace with your own):
@@ -40,6 +40,20 @@ class Product(BaseModel):
 
 # Add your own schemas here:
 # --------------------------------------------------
+
+class Song(BaseModel):
+    """
+    Songs collection schema
+    Collection name: "song" (lowercase of class name)
+    """
+    title: str = Field(..., description="Song title")
+    artist: str = Field(..., description="Artist name")
+    album: Optional[str] = Field(None, description="Album name")
+    genre: Optional[str] = Field(None, description="Genre")
+    year: Optional[int] = Field(None, ge=1900, le=2100, description="Release year")
+    cover_url: Optional[HttpUrl] = Field(None, description="Album art or cover image URL")
+    listen_url: Optional[HttpUrl] = Field(None, description="External link to listen")
+    is_free: bool = Field(True, description="Whether the track is free to listen")
 
 # Note: The Flames database viewer will automatically:
 # 1. Read these schemas from GET /schema endpoint
